@@ -31,6 +31,12 @@ public class PushNotificationsPlugin: CAPPlugin {
                                                selector: #selector(self.didFailToRegisterForRemoteNotificationsWithError(notification:)),
                                                name: .capacitorDidFailToRegisterForRemoteNotifications,
                                                object: nil)
+
+        NotificationCenter.default.addObserver(self, 
+                                               selector: #selector(self.didReceiveRemoteNotification(notification:)), 
+                                               name: Notification.Name.init("didReceiveRemoteNotification"), 
+                                               object: nil)
+
     }
 
     deinit {
@@ -183,5 +189,15 @@ public class PushNotificationsPlugin: CAPPlugin {
         notifyListeners("registrationError", data: [
             "error": error.localizedDescription
         ])
+    }
+    
+    @objc public func didReceiveRemoteNotification(notification: NSNotification) {
+        appDelegateRegistrationCalled = true
+
+        let userInfo = notification.userInfo! as NSDictionary
+        let completionHandler = notification.object as! (UIBackgroundFetchResult) -> Void
+
+        notifyListeners("dataMessage", data: (userInfo as! [String : Any]))
+        // self.notificationDelegateHandler.didReceiveRemoteNotification(userInfo: userInfo, fetchCompletionHandler: completionHandler)
     }
 }

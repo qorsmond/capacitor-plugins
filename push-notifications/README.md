@@ -169,6 +169,7 @@ const getDeliveredNotifications = async () => {
 * [`addListener('registrationError', ...)`](#addlistenerregistrationerror)
 * [`addListener('pushNotificationReceived', ...)`](#addlistenerpushnotificationreceived)
 * [`addListener('pushNotificationActionPerformed', ...)`](#addlistenerpushnotificationactionperformed)
+* [`addListener('dataMessage', ...)`](#addlistenerdatamessage)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -417,6 +418,22 @@ Called when an action is performed on a push notification.
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
 
 **Since:** 1.0.0
+
+--------------------
+
+
+### addListener('dataMessage', ...)
+
+```typescript
+addListener(eventName: 'dataMessage', listenerFunc: (message: any) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+| Param              | Type                                   |
+| ------------------ | -------------------------------------- |
+| **`eventName`**    | <code>'dataMessage'</code>             |
+| **`listenerFunc`** | <code>(message: any) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
 
 --------------------
 

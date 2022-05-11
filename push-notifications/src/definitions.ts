@@ -160,6 +160,16 @@ export interface PushNotificationsPlugin {
     listenerFunc: (notification: ActionPerformed) => void,
   ): Promise<PluginListenerHandle> & PluginListenerHandle;
 
+    /**
+   * Called when an silent data notification is recieved.
+   *
+   * @since 1.0.10
+   */
+  addListener(
+    eventName: 'dataMessage',
+    listenerFunc: (message: any) => void,
+  ): Promise<PluginListenerHandle> & PluginListenerHandle;
+
   /**
    * Remove all native listeners for this plugin.
    *

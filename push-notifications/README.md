@@ -1,3 +1,7 @@
+# Mod
+
+A small modification so that silent data notifications works.
+
 # @capacitor/push-notifications
 
 The Push Notifications API provides access to native push notifications.
@@ -23,6 +27,15 @@ func application(_ application: UIApplication, didRegisterForRemoteNotifications
 func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
   NotificationCenter.default.post(name: .capacitorDidFailToRegisterForRemoteNotifications, object: error)
 }
+```
+
+### Mod
+also add 
+
+```swift
+func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        NotificationCenter.default.post(name: Notification.Name.init("didReceiveRemoteNotification"), object: completionHandler, userInfo: userInfo)
+    }
 ```
 
 ## Android

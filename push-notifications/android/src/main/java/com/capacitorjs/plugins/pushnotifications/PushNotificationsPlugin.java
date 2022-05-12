@@ -28,8 +28,12 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 @CapacitorPlugin(name = "PushNotifications", permissions = @Permission(strings = {}, alias = "receive"))
 public class PushNotificationsPlugin extends Plugin {
+
+    private static final String TAG = "MyFirebaseMsgService";
 
     public static Bridge staticBridge = null;
     public static RemoteMessage lastMessage = null;
@@ -41,6 +45,7 @@ public class PushNotificationsPlugin extends Plugin {
     private static final String EVENT_TOKEN_ERROR = "registrationError";
 
     public void load() {
+        Log.d(TAG, "load is called");
         notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
         firebaseMessagingService = new MessagingService();
 
@@ -216,6 +221,41 @@ public class PushNotificationsPlugin extends Plugin {
         }
     }
 
+    public static void sendRemoteDataMessage(RemoteMessage remoteMessage) {
+        PushNotificationsPlugin pushPlugin = PushNotificationsPlugin.getPushNotificationsInstance();
+         if (pushPlugin != null) {
+            pushPlugin.fireDataMessage(remoteMessage);
+        } else {
+            Log.d(TAG, "no pushPlugin instance");
+            // need to do it here...
+            // staticBridge = this.bridge;
+            // PushNotificationsPlugin.load();
+            // PushNotificationsPlugin rePushPlugin = PushNotificationsPlugin.getPushNotificationsInstance();
+            // rePushPlugin.fireDataMessage(remoteMessage);
+
+            // PushNotificationsPlugin rePushPlugin = new PushNotificationsPlugin();
+            // rePushPlugin.load();
+            // PushNotificationsPlugin.sendRemoteDataMessage(remoteMessage);
+        }
+    }
+
+    public void fireDataMessage(RemoteMessage remoteMessage) {
+        Log.d(TAG, "remoteMessage id: " + remoteMessage.getMessageId());
+
+        JSObject remoteMessageData = new JSObject();
+
+        JSObject data = new JSObject();
+        remoteMessageData.put("id", remoteMessage.getMessageId());
+        for (String key : remoteMessage.getData().keySet()) {
+            Object value = remoteMessage.getData().get(key);
+            data.put(key, value);
+        }
+        remoteMessageData.put("data", data);
+
+        Log.d(TAG, "remoteMessage send dataMessage");
+        notifyListeners("dataMessage", remoteMessageData, true);
+    }
+
     public void fireNotification(RemoteMessage remoteMessage) {
         JSObject remoteMessageData = new JSObject();
 
@@ -244,12 +284,15 @@ public class PushNotificationsPlugin extends Plugin {
 
     public static PushNotificationsPlugin getPushNotificationsInstance() {
         if (staticBridge != null && staticBridge.getWebView() != null) {
+         Log.d(TAG, "good");
+
             PluginHandle handle = staticBridge.getPlugin("PushNotifications");
             if (handle == null) {
                 return null;
             }
             return (PushNotificationsPlugin) handle.getInstance();
         }
+         Log.d(TAG, "no good");
         return null;
     }
 }

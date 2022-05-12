@@ -198,6 +198,5 @@ public class PushNotificationsPlugin: CAPPlugin {
         let completionHandler = notification.object as! (UIBackgroundFetchResult) -> Void
 
         notifyListeners("dataMessage", data: (userInfo as! [String : Any]))
-        // self.notificationDelegateHandler.didReceiveRemoteNotification(userInfo: userInfo, fetchCompletionHandler: completionHandler)
     }
 }

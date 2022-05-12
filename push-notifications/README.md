@@ -441,12 +441,16 @@ Called when an action is performed on a push notification.
 addListener(eventName: 'dataMessage', listenerFunc: (message: any) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
 ```
 
+Called when an silent data notification is recieved.
+
 | Param              | Type                                   |
 | ------------------ | -------------------------------------- |
 | **`eventName`**    | <code>'dataMessage'</code>             |
 | **`listenerFunc`** | <code>(message: any) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+**Since:** 1.0.10
 
 --------------------
 

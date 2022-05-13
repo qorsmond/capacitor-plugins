@@ -7,6 +7,10 @@ import com.google.firebase.messaging.RemoteMessage;
 import android.util.Log;
 import android.content.Intent;
 
+
+import android.content.Context;
+import android.app.NotificationManager;
+
 public class MessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
@@ -23,11 +27,10 @@ public class MessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
-            PushNotificationsPlugin.sendRemoteDataMessage(remoteMessage);
-
-            // Intent broadcastIntent = new Intent("android.intent.action.capacitor.pushnotification");
-            // broadcastIntent.putExtra("remoteMessage", remoteMessage);
-            // sendBroadcast(broadcastIntent);
+            // This works
+            // TODO need to check the payload if we want to clear..
+            NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancelAll();
         }
 
         // Check if message contains a notification payload.
